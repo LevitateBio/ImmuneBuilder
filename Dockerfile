@@ -1,6 +1,8 @@
 # syntax=docker/dockerfile:1
 FROM mambaorg/micromamba:1.5.7 AS base
 
+USER root  # <--- Explicitly set to root for build steps
+
 # Set up environment
 ENV MAMBA_DOCKERFILE_ACTIVATE=1 \
     CONDA_ENV_PATH=/opt/conda/envs/ibuilder \
@@ -36,5 +38,9 @@ COPY README.md .
 
 # Do NOT chown, do NOT switch user yet
 
-# Install package
 RUN pip install .
+
+USER mambauser  # <--- Switch to non-root for runtime
+
+ENTRYPOINT ["/bin/bash"]
+CMD ["-c", "echo 'Available commands: ABodyBuilder2, TCRBuilder2, NanoBodyBuilder2' && exec bash"]
