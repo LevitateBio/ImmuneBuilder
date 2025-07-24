@@ -34,6 +34,9 @@ COPY setup.py .
 COPY MANIFEST.in .
 COPY README.md .
 
+RUN chown -R mambauser:mambauser /app
+USER mambauser
+
 # Install package
 RUN pip install .
 
