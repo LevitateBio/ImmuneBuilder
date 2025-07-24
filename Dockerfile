@@ -34,15 +34,7 @@ COPY setup.py .
 COPY MANIFEST.in .
 COPY README.md .
 
-RUN chown -R mambauser:mambauser /app
-USER mambauser
+# Do NOT chown, do NOT switch user yet
 
 # Install package
 RUN pip install .
-
-# Set entrypoints for the three main console scripts
-ENTRYPOINT ["/bin/bash"]
-CMD ["-c", "echo 'Available commands: ABodyBuilder2, TCRBuilder2, NanoBodyBuilder2' && exec bash"]
-
-# Example usage (mount weights at runtime):
-# docker run --rm -it -v /path/to/weights:/app/ImmuneBuilder/trained_model <image> ABodyBuilder2 --help 
