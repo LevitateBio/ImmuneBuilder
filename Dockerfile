@@ -1,7 +1,8 @@
 # syntax=docker/dockerfile:1
 FROM mambaorg/micromamba:1.5.7 AS base
 
-USER root  # <--- Explicitly set to root for build steps
+# Explicitly set to root for build steps
+USER root
 
 # Set up environment
 ENV MAMBA_DOCKERFILE_ACTIVATE=1 \
