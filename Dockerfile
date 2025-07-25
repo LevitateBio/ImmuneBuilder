@@ -27,7 +27,7 @@ SHELL ["/bin/bash", "-c"]
 RUN echo "conda activate ibuilder" >> ~/.bashrc
 ENV CONDA_DEFAULT_ENV=ibuilder
 
-# Install PyTorch (CPU only for minimal image)
+# Install PyTorch (CPU only for minimal image) We may want to consider gpu mode in the future. 
 RUN pip install torch --extra-index-url https://download.pytorch.org/whl/cpu
 
 # Copy code
@@ -37,11 +37,9 @@ COPY setup.py .
 COPY MANIFEST.in .
 COPY README.md .
 
-# Do NOT chown, do NOT switch user yet
-
 RUN pip install .
 
-USER mambauser  # <--- Switch to non-root for runtime
+USER mambauser
 
 ENTRYPOINT ["/bin/bash"]
 CMD ["-c", "echo 'Available commands: ABodyBuilder2, TCRBuilder2, NanoBodyBuilder2' && exec bash"]
